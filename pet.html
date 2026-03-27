@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Virtual Pet</title>
+
+<style>
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #ffd6e0, #caffbf);
+}
+
+.container {
+    background: white;
+    padding: 25px;
+    border-radius: 25px;
+    text-align: center;
+    width: 300px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+}
+
+/* Pet */
+.pet {
+    font-size: 80px;
+    animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+/* Bars */
+.bar {
+    background: #eee;
+    border-radius: 10px;
+    margin: 10px 0;
+    height: 15px;
+}
+
+.fill {
+    height: 100%;
+    border-radius: 10px;
+}
+
+#hunger { background: #ffadad; }
+#mood { background: #a0c4ff; }
+#energy { background: #caffbf; }
+
+/* Buttons */
+button {
+    margin: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+button:active {
+    transform: scale(0.9);
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>My Virtual Pet 🐾</h2>
+
+    <div id="pet" class="pet">😊</div>
+
+    <div>Hunger</div>
+    <div class="bar"><div id="hunger" class="fill"></div></div>
+
+    <div>Mood</div>
+    <div class="bar"><div id="mood" class="fill"></div></div>
+
+    <div>Energy</div>
+    <div class="bar"><div id="energy" class="fill"></div></div>
+
+    <div>
+        <button onclick="feed()">🍖 Feed</button>
+        <button onclick="play()">🎮 Play</button>
+        <button onclick="sleep()">😴 Sleep</button>
+    </div>
+</div>
+
+<script>
+let hunger = 100;
+let mood = 100;
+let energy = 100;
+
+let pet = document.getElementById("pet");
+
+/* Update bars */
+function update() {
+    document.getElementById("hunger").style.width = hunger + "%";
+    document.getElementById("mood").style.width = mood + "%";
+    document.getElementById("energy").style.width = energy + "%";
+
+    /* Pet expression */
+    if (hunger < 30) pet.innerText = "😢";
+    else if (energy < 30) pet.innerText = "😴";
+    else if (mood < 30) pet.innerText = "😠";
+    else pet.innerText = "😊";
+}
+
+/* Actions */
+function feed() {
+    hunger += 20;
+    if (hunger > 100) hunger = 100;
+}
+
+function play() {
+    mood += 15;
+    energy -= 10;
+}
+
+function sleep() {
+    energy += 25;
+}
+
+/* Decay over time */
+setInterval(() => {
+    hunger -= 2;
+    mood -= 1;
+    energy -= 2;
+
+    if (hunger < 0) hunger = 0;
+    if (mood < 0) mood = 0;
+    if (energy < 0) energy = 0;
+
+    update();
+}, 2000);
+
+update();
+</script>
+
+</body>
+</html>
